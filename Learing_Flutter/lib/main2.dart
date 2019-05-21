@@ -31,6 +31,7 @@ class RandomWords extends StatefulWidget {
 }
 
 class RandomWordsState extends State<RandomWords> {
+
   final _suggestions = <WordPair>[];
   final _biggerFont = const TextStyle(fontSize: 18.0);
   final _saved = new Set<WordPair>();
@@ -39,6 +40,10 @@ class RandomWordsState extends State<RandomWords> {
   Widget build(BuildContext context) {
     // final wordPair = new WordPair.random();
     // return new Text(wordPair.asPascalCase);
+    
+    final t = Test();
+    t.test();
+
     return new Scaffold(
       appBar: new AppBar(
         title: new Text('Startup Name Genertor'),
@@ -111,4 +116,15 @@ class RandomWordsState extends State<RandomWords> {
       );
     }));
   }
+}
+
+class Test {
+
+  void test() {
+    var list = <int>[];
+    list.add(1);
+    list.add(2);
+    print(list);
+  }
+
 }
