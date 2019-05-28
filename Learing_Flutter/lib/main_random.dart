@@ -1,3 +1,4 @@
+import 'package:f/main.dart';
 import 'package:flutter/material.dart';
 import 'package:english_words/english_words.dart';
 
@@ -13,6 +14,9 @@ class MyApp extends StatelessWidget {
         primaryColor: Colors.red,
         cardColor: Colors.green,
       ),
+      routes: {
+        "new_page":(conetext) => NewRoute(),
+      },
       home: new Scaffold(
         // appBar: new AppBar(
         //   title: new Text('Flutter'),

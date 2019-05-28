@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:english_words/english_words.dart';
 
 void main() => runApp(new MyApp());
 
@@ -11,6 +12,9 @@ class MyApp extends StatelessWidget {
       theme: new ThemeData(
         primaryColor: Colors.blue,
       ),
+      routes: {
+        "new_page": (context) => NewRoute(),
+      },
       home: new MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
@@ -53,13 +57,15 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Text('open new route'),
               textColor: Colors.blue,
               onPressed: (){
-                Navigator.push( context, 
-                  new MaterialPageRoute(builder: (context) {
-                    return new NewRoute();
-                  })
-                );
+                Navigator.pushNamed(context, 'new_page', arguments: "hi");
+              //   Navigator.push( context, 
+              //     new MaterialPageRoute(builder: (context) {
+              //       return new NewRoute();
+              //     })
+              //   );
               },
             ),
+            RandomWordsWidget(),
           ],
         ),
       ),
@@ -76,6 +82,10 @@ class _MyHomePageState extends State<MyHomePage> {
 class NewRoute extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+
+    var args = ModalRoute.of(context).settings.arguments;
+    print(args);
+
     return Scaffold(
       appBar: new AppBar(
         title: Text('New Route'),
@@ -83,6 +93,20 @@ class NewRoute extends StatelessWidget {
       body: Center(
         child: Text('This is new route'),
       ),
+    );
+  }
+}
+
+
+class RandomWordsWidget extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    final wordPair = new WordPair.random();
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: new Text(wordPair.toString()),
     );
   }
 }
