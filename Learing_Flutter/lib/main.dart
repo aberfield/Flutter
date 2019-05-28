@@ -1,100 +1,88 @@
 import 'package:flutter/material.dart';
 
-class Product {
-  const Product({this.name});
-  final String name;
-}
+void main() => runApp(new MyApp());
 
-typedef void CartChangedCallback(Product product, bool inCart);
-
-class ShoppingListItem extends StatelessWidget {
-  ShoppingListItem({Product product, this.inCart, this.onCartChanged})
-      : product = product,
-        super(key: new ObjectKey(product));
-
-  final Product product;
-  final bool inCart;
-  final CartChangedCallback onCartChanged;
-
-  Color _getColor(BuildContext context) {
-    return inCart ? Colors.black54 : Theme.of(context).primaryColor;
-  }
-
-  TextStyle _getTextStyle(BuildContext context) {
-    if (!inCart) return null;
-
-    return new TextStyle(
-      color: Colors.black54,
-      decoration:  TextDecoration.lineThrough,
-    );
-  }
-
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return new ListTile(
-      onTap: () {
-        onCartChanged(product, !inCart);
-      },
-      leading: new CircleAvatar(
-        backgroundColor: _getColor(context),
-        child: new Text(product.name[0]),
+    // TODO: implement build
+    return new MaterialApp(
+      title: 'Flutter Demo',
+      theme: new ThemeData(
+        primaryColor: Colors.blue,
       ),
-      title: new Text(product.name, style: _getTextStyle(context)),
+      home: new MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
 
-class ShoppingList extends StatefulWidget {
-  ShoppingList({Key key, this.products}) : super(key: key);
+class MyHomePage extends StatefulWidget {
+  MyHomePage({Key key, this.title}) : super(key: key);
+  final String title;
 
-  final List<Product> products;
-
-  @override 
-  _ShoppingListState createState() => new _ShoppingListState();
-  
+  @override
+  _MyHomePageState createState() => new _MyHomePageState();
 }
 
-class _ShoppingListState extends State<ShoppingList> {
-  Set<Product> _shoppingCart = new Set<Product>();
+class _MyHomePageState extends State<MyHomePage> {
+  int _counter = 0;
 
-  void _handleCartChanged(Product product, bool inCart) {
+  void _incrementCounter() {
     setState(() {
-      if (inCart) 
-        _shoppingCart.add(product);
-      else 
-        _shoppingCart.remove(product);
+      _counter++;
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    // TODO: implement build
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text('Shopping List'),
+        title: new Text(widget.title),
       ),
-      body: new ListView(
-        padding: new EdgeInsets.symmetric(vertical: 8.0),
-        children: widget.products.map((Product product) {
-          return new ShoppingListItem(
-            product: product,
-            inCart: _shoppingCart.contains(product),
-            onCartChanged: _handleCartChanged,
-          );
-        }).toList(),
+      body: new Center(
+        child: new Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            new Text('You have pushed the button this many times'),
+            new Text(
+              '$_counter',
+              style: Theme.of(context).textTheme.display1,
+            ),
+            FlatButton(
+              child: Text('open new route'),
+              textColor: Colors.blue,
+              onPressed: (){
+                Navigator.push( context, 
+                  new MaterialPageRoute(builder: (context) {
+                    return new NewRoute();
+                  })
+                );
+              },
+            ),
+          ],
+        ),
       ),
-      );
+      floatingActionButton: new FloatingActionButton(
+        onPressed: _incrementCounter,
+        tooltip: 'Increment',
+        child: new Icon(Icons.add),
+      ),
+    );
   }
 }
 
-void main() {
-  runApp(new MaterialApp(
-    title: 'Shopping App',
-    home: new ShoppingList(
-      products: <Product>[
-        new Product(name: 'Eggs'),
-        new Product(name: 'Flour'),
-        new Product(name: 'Chocolate chips'),
-      ],
-    ),
-  ));
+
+class NewRoute extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: new AppBar(
+        title: Text('New Route'),
+      ),
+      body: Center(
+        child: Text('This is new route'),
+      ),
+    );
+  }
 }
