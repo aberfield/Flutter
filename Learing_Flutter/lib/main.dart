@@ -65,6 +65,13 @@ class _MyHomePageState extends State<MyHomePage> {
               //   );
               },
             ),
+            FlatButton(
+              child: Text('debugDumpApp'),
+              textColor: Colors.green,
+              onPressed: (){
+                debugDumpApp();
+              },
+            ),
             RandomWordsWidget(),
           ],
         ),
