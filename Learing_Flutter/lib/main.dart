@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:english_words/english_words.dart';
 
@@ -6,7 +8,6 @@ void main() => runApp(new MyApp());
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return new MaterialApp(
       title: 'Flutter Demo',
       theme: new ThemeData(
@@ -40,6 +41,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
+    futureDelayed();
     return new Scaffold(
       appBar: new AppBar(
         title: new Text(widget.title),
@@ -83,6 +85,29 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
+
+  void futureDelayed() {
+    Future.delayed( new Duration(seconds: 2),() {
+      print("object");
+    }).then((data) {
+      print("success");
+    }).catchError((e){
+      print(e);
+    });
+
+    Future.wait([
+      Future.delayed( new Duration(seconds: 2),(){
+        return "hello";
+      }),
+      Future.delayed(new Duration(seconds: 4),(){
+        return "world";
+      })
+    ]).then((results){
+      print(results[0]+ results[1]);
+    }).catchError((e){
+      print(e);
+    });
+  }
 }
 
 
@@ -117,3 +142,79 @@ class RandomWordsWidget extends StatelessWidget {
     );
   }
 }
+
+class Echo extends StatelessWidget {
+  const Echo({
+    Key key,
+    @required this.text,
+    this.backgroundColor:Colors.grey,
+  }):super(key:key);
+
+  final String text;
+  final Color backgroundColor;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Container(
+        color: backgroundColor,
+        child: Text(text),
+      ),
+      );
+  }
+}
+
+class CounterWidget extends StatefulWidget {
+  const CounterWidget({
+    Key key,
+    this.initValue: 0,
+  });
+
+  final int initValue;
+
+  @override 
+  _CounterWidgetState createState() => new _CounterWidgetState();
+}
+
+class _CounterWidgetState extends State<CounterWidget> {
+  int _counter;
+
+  @override
+  void initState() {
+    super.initState();
+    _counter = widget.initValue;
+    print("initState");
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    print("build");
+    return Scaffold(
+      body: Center(
+        child: FlatButton(
+          child: Text('$_counter'),
+          onPressed: ()=>setState(()=> ++_counter 
+          )
+        ),
+      ),
+    );
+  }
+
+  @override
+  void didUpdateWidget(CounterWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    print("didUpdateWidget");
+  }
+
+  @override
+  void deactivate() {
+    super.deactivate();
+    print("deactivate");
+  }
+
+}
+
+
+
+
+
