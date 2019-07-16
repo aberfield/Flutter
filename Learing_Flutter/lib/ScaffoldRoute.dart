@@ -5,9 +5,18 @@ class ScaffoldRoute extends StatefulWidget {
   _ScaffoldRouteState createState() => _ScaffoldRouteState();
 }
 
-class _ScaffoldRouteState extends State<ScaffoldRoute> {
+class _ScaffoldRouteState extends State<ScaffoldRoute> with SingleTickerProviderStateMixin {
   static GlobalKey<ScaffoldState> _globalKey = new GlobalKey();
   int _selectedIndex = 1;
+
+  TabController _tabController;
+  List tabs = ["新闻","历史","图片"];
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: tabs.length, vsync: this);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +37,11 @@ class _ScaffoldRouteState extends State<ScaffoldRoute> {
         actions: <Widget>[
           IconButton(icon: Icon(Icons.share),onPressed: (){}),
         ],
+
+        bottom: TabBar(
+          controller: _tabController,
+          tabs:tabs.map((e) => Tab(text: e)).toList()
+        ),
       ),
       drawer: new MyDrawer(),
       bottomNavigationBar: BottomNavigationBar(
